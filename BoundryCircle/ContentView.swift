@@ -6,16 +6,22 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct ContentView: View {
+    
+    @StateObject private var mapVM = MapViewModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        ZStack {
+            MKMapRep(mapVM: mapVM)
+                .ignoresSafeArea()
         }
-        .padding()
+        .alert("Out of Bounds!!", isPresented: $mapVM.alertOutOfBounds) {
+            Button("OK") {}
+        } message: {
+            Text("You are out of bounds from the circle!!!")
+        }
     }
 }
 
